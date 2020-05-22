@@ -9,9 +9,10 @@ import lombok.Data;
 @Data
 //@ToString(exclude = "image")
 public class Student implements Serializable{
+	//Student ID
 	private String sId;
 	private String name;
-	private String birthDate;
 	private String gender;
-	private String image;
+	//Identity card NO.
+	private String identity;
 }
