@@ -1,5 +1,8 @@
-package POJO;
+package pojos;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -12,13 +15,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "PHUCKHAO")
-public class Reexamine {
+@Table(name = "MON")
+public class Course  implements Serializable{
 	@Id
-	private String rId;
-	private String sId;
+	@Column(name = "MA_MON", length = 5)
 	private String cId;
-	private double expectScore;
-	private int type;
-	private String reason;
+	@Column(name = "TEN_MON", length = 30)
+	private String name;
 }

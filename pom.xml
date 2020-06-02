@@ -7,6 +7,13 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>student-manager</name>
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.20</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -28,6 +35,13 @@
 			<version>1.18.12</version>
 			<scope>provided</scope>
 		</dependency>
-
 	</dependencies>
+	<!-- <build> -->
+	<!-- <resources> -->
+	<!-- <resource> -->
+	<!-- <directory>src/main/resources/hibernatecfg</directory> -->
+	<!-- <filtering>true</filtering> -->
+	<!-- </resource> -->
+	<!-- </resources> -->
+	<!-- </build> -->
 </project>
