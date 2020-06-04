@@ -18,4 +18,13 @@ public class RecordDAO  implements ObjectDAOImpl<Record>{
 		}
 		return null;
 	}
+	public List<Record> gets(String sId){
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery("from Record r where r.sID =" + sId, Record.class).list();
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return null;
+	}
 }

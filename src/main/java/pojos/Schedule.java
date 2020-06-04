@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "THOI_KHOA_BIEU")
-public class Timetable implements Serializable{
+public class Schedule implements Serializable{
 	@Id
 	@Column(name = "MA_LOP", length = 5, nullable = false)
 	private String clID;

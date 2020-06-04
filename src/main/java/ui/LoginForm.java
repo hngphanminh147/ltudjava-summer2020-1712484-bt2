@@ -5,19 +5,21 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import constant.Constant;
 import net.miginfocom.swing.MigLayout;
 import pojos.Student;
+import ui.studentform.StudentFrame;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 
-import contants.Constant;
 import daos.StudentDAO;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
@@ -28,20 +30,14 @@ public class LoginForm extends JFrame implements ActionListener {
 	private JTextField tfUsername = new JTextField();
 	private JPasswordField tfPassword = new JPasswordField();
 	private JButton btnSubmit = new JButton("\u0110\u0103ng nh\u1EADp");
-	
-	private String id;
 
 	public LoginForm() {
-		setLayout();
-		addComponentsToContentPane();
+		setProperties();
 		addActionEvent();
-	}
-	
-	public String getId() {
-		return this.id;
+		addComponentsToContentPane();
 	}
 
-	private void setLayout() {
+	private void setProperties() {
 		setTitle("\u0110\u0103ng nh\u1EADp");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 200);
@@ -69,32 +65,39 @@ public class LoginForm extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if (event.getSource() == btnSubmit) {
-			String username = tfUsername.getText();
-			String password = String.valueOf(tfPassword.getPassword());
+			String username = tfUsername.getText().replaceAll("\\s+$", "");
+			String password = String.valueOf(tfPassword.getPassword()).replaceAll("\\s+$", "");
 			
 			tfUsername.setText("");
 			tfPassword.setText("");
 
 			if ((username.equals("giaovu")) && (password.equals("giaovu"))) {
-				this.id = "giaovu";
-				// TeacherForm
+				// TeacherFrame
 				TeacherFrame teacherFrame = new TeacherFrame();
 				teacherFrame.setVisible(true);
 				dispose();
 				return;
 			}
 			try {
-				List<Student> students = new StudentDAO().getAll();
-				for (Student s: students) {
-					if (s.getSId().equals(username) && s.getPassword().equals(password)) {
-						this.id = username;		
-						// StudentFrame	
-						StudentFrame studentFrame = new StudentFrame();
-						studentFrame .setVisible(true);
-						dispose();
-						return;
-					}
+				Student s = new StudentDAO().get(username);
+				if (s.getPassword().equals(password)) {
+					// StudentFrame	
+					StudentFrame studentFrame = new StudentFrame(username);
+					studentFrame .setVisible(true);
+					dispose();
+					return;
 				}
+				
+//				List<Student> students = new StudentDAO().getAll();
+//				for (Student s: students) {
+//					if (s.getSId().equals(username) && s.getPassword().equals(password)) {
+//						// StudentFrame	
+//						StudentFrame studentFrame = new StudentFrame(username);
+//						studentFrame .setVisible(true);
+//						dispose();
+//						return;
+//					}
+//				}
 				JOptionPane.showMessageDialog(this, Constant.LOGIN_FAILED, Constant.ALERT, JOptionPane.ERROR_MESSAGE);
 			} catch (Exception exception) {
 				exception.printStackTrace();

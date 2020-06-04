@@ -6,12 +6,12 @@ import org.hibernate.Session;
 
 import hibernatecfg.HibernateUtil;
 import pojos.Student;
-import pojos.Timetable;
+import pojos.Schedule;
 
-public class TimetableDAO implements ObjectDAOImpl<Timetable> {
-	public List<Timetable> getAll() {
+public class ScheduleDAO implements ObjectDAOImpl<Schedule> {
+	public List<Schedule> getAll() {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			return session.createQuery("from Timetable", Timetable.class).list();
+			return session.createQuery("from Schedule", Schedule.class).list();
 		} catch (Exception e) {
 			e.printStackTrace();
 			// TODO: handle exception

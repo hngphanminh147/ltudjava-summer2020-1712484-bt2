@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "PHUC_KHAO")
-public class Reexamine implements Serializable{
+public class Reexamination implements Serializable{
 	@Id
 	@Column(name = "MA_LOP", length = 5, nullable = false)
 	private String clID;

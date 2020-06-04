@@ -32,4 +32,14 @@ public class StudentDAO implements ObjectDAOImpl<Student>{
 		}
 		return null;
 	}
+	public Student get(String sId) {
+		Student s = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()){
+			s = session.get(Student.class, sId);
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			// TODO: handle exception
+		}
+		return s;
+	}
 }

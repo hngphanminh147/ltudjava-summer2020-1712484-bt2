@@ -5,13 +5,13 @@ import java.util.List;
 import org.hibernate.Session;
 
 import hibernatecfg.HibernateUtil;
-import pojos.Reexamine;
+import pojos.Reexamination;
 import pojos.Student;
 
-public class ReexamineDAO implements ObjectDAOImpl<Reexamine>{
-	public List<Reexamine> getAll() {
+public class ReexaminationDAO implements ObjectDAOImpl<Reexamination>{
+	public List<Reexamination> getAll() {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			return session.createQuery("from Reexamine", Reexamine.class).list();
+			return session.createQuery("from Reexamination", Reexamination.class).list();
 		} catch (Exception e) {
 			e.printStackTrace();
 			// TODO: handle exception
