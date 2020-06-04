@@ -18,10 +18,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "THOI_KHOA_BIEU")
 public class Timetable implements Serializable{
 	@Id
-	@Column(name = "MA_LOP", length = 5)
+	@Column(name = "MA_LOP", length = 5, nullable = false)
 	private String clID;
 	@Id
-	@Column(name = "MA_MON", length = 5)
+	@Column(name = "MA_MON", length = 5, nullable = false)
 	private String cID;
 	@Column(name = "PHONG", length = 3)
 	private String room;

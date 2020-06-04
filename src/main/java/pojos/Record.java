@@ -18,13 +18,13 @@ import lombok.NoArgsConstructor;
 @Table(name = "BANG_DIEM")
 public class Record implements Serializable{
 	@Id
-	@Column(name = "MA_LOP", length = 5)
+	@Column(name = "MA_LOP", length = 5, nullable = false)
 	private String clID;
 	@Id
-	@Column(name = "MA_MON", length = 5)
+	@Column(name = "MA_MON", length = 5, nullable = false)
 	private String cID;
 	@Id
-	@Column(name = "MA_SV", length = 7)
+	@Column(name = "MA_SV", length = 7, nullable = false)
 	private String sID;
 	@Column(name = "GK")
 	private int midTerm;

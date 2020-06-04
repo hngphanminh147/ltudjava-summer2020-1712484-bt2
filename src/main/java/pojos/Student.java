@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "SINH_VIEN")
 public class Student implements Serializable {
 	@Id
-	@Column(name = "MA_SV", length = 7)
+	@Column(name = "MA_SV", length = 7, unique = true, nullable = false)
 	private String sId;
 	@Column(name = "MA_LOP", length = 5)
 	private String clID;

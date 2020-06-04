@@ -7,10 +7,9 @@ import org.hibernate.Transaction;
 
 import hibernatecfg.HibernateUtil;
 import pojos.Class;
-import pojos.Student;
 
 public class ClassDAO implements ObjectDAOImpl<Class>{
-	public List<pojos.Class> getAll() {
+	public List<Class> getAll() {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			return session.createQuery("from Class", Class.class).list();
 		} catch (Exception e) {

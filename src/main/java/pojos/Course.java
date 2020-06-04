@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "MON")
 public class Course  implements Serializable{
 	@Id
-	@Column(name = "MA_MON", length = 5)
+	@Column(name = "MA_MON", length = 5, unique = true, nullable = false)
 	private String cId;
 	@Column(name = "TEN_MON", length = 30)
 	private String name;
