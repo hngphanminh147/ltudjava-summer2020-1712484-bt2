@@ -32,4 +32,6 @@ public class Reexamination implements Serializable{
 	private int expectScore;
 	@Column(name = "LY_DO", length = 30)
 	private String reason;
+	@Column(name = "TRANG_THAI")
+	private int state;
 }

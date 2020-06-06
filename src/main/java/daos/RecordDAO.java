@@ -18,7 +18,7 @@ public class RecordDAO  implements ObjectDAOImpl<Record>{
 		}
 		return null;
 	}
-	public List<Record> gets(String sId){
+	public List<Record> getBySId(String sId){
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			return session.createQuery("from Record r where r.sID =" + sId, Record.class).list();
 		} catch (Exception e) {

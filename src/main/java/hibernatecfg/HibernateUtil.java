@@ -42,6 +42,7 @@ public class HibernateUtil {
 				configuration.addAnnotatedClass(pojos.Reexamination.class);
 				configuration.addAnnotatedClass(pojos.Student.class);
 				configuration.addAnnotatedClass(pojos.Schedule.class);
+				configuration.addAnnotatedClass(pojos.Member.class);
 				
 				ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 						.applySettings(configuration.getProperties()).build();

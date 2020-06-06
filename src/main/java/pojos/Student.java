@@ -30,6 +30,4 @@ public class Student implements Serializable {
 	private boolean gender;
 	@Column(name = "CMND", length = 9)
 	private String identity;
-	@Column(name = "MK", length = 16)
-	private String password;
 }

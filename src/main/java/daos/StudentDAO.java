@@ -15,7 +15,7 @@ public class StudentDAO implements ObjectDAOImpl<Student>{
 		try (Session session = HibernateUtil.getSessionFactory().openSession()){
 			transaction = session.beginTransaction();
 			session.save(s);
-			transaction.commit();;
+			transaction.commit();
 		} catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();
@@ -32,7 +32,7 @@ public class StudentDAO implements ObjectDAOImpl<Student>{
 		}
 		return null;
 	}
-	public Student get(String sId) {
+	public Student getBySId(String sId) {
 		Student s = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()){
 			s = session.get(Student.class, sId);
