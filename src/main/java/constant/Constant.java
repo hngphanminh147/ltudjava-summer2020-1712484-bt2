@@ -11,4 +11,10 @@ public class Constant {
 	public static final String[] RECORD_COLUMNS_NAME = { "M\u00F4n h\u1ECDc", "\u0110i\u1EC3m gi\u1EEFa k\u1EF3",
 			"\u0110i\u1EC3m cu\u1ED1i k\u1EF3", "\u0110i\u1EC3m kh\u00E1c", "\u0110i\u1EC3m t\u1ED5ng k\u1EBFt" };
 	public static final String COURSE = "M\u00F4n h\u1ECDc";
+	
+	public static final String GET_STUDENTS_BY_CLASS_PROC_NAME = "proc_danh_sach_lop";
+	public static final String GET_STUDENTS_BY_CLASS_COURSE_PROC_NAME = "proc_danh_sach_lop_mon";
+	
+	public static final String TEST = "Kh\u00F4ng ch\u1ECDn";
+	public static final String NO = "-----";
 }

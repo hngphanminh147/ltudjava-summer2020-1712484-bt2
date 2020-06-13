@@ -41,30 +41,29 @@ public class ReexaminationnPanel extends JPanel implements MouseListener {
 
 	private final JLabel lblClasses = new JLabel("C\u00E1c m\u00F4n \u0111\u00E3 c\u00F3 \u0111i\u1EC3m");
 	private final JLabel lblReexamination = new JLabel();
-
-	private JTable tblRecords = new JTable();
-	private Vector<String> columnsName = new Vector<>();
-	private Vector<Vector> rowData = new Vector<>();
-	private JScrollPane scrollPane;
-
 	private final JPanel panel = new JPanel();
 	private final JLabel lblCourse = new JLabel("M\u00F4n h\u1ECDc");
 	private final JLabel lblSelected = new JLabel("\u0110i\u1EC3m c\u1EA7n ph\u00FAc kh\u1EA3o");
 	private final JLabel lblExpecting = new JLabel("\u0110i\u1EC3m mong mu\u1ED1n");
 	private final JLabel lblReason = new JLabel("L\u00FD do");
+	private final JLabel lblClass = new JLabel("L\u1EDBp h\u1ECDc");
+
+	private JTable tblRecords = new JTable();
+	private Vector<String> columnNames = new Vector<>();
+	private Vector<Vector> rowData = new Vector<>();
+	private JScrollPane scrollPane;
 
 	private JTextField tfCourse = new JTextField();
 	private JTextField tfExpecting = new JTextField();
 	private JComboBox<String> cbSelected = new JComboBox<String>();
 	private JTextArea taReason = new JTextArea();
 	private JButton btnSubmit = new JButton("G\u1EEDi");
-	private final JLabel lblClass = new JLabel("L\u1EDBp h\u1ECDc");
-	private final JTextField tfClass = new JTextField();
+	private JTextField tfClass = new JTextField();
 
 	public ReexaminationnPanel(Student s) {
 		this.s = s;
 		getRecords();
-		this.tblRecords = new JTable(rowData, columnsName);
+		this.tblRecords = new JTable(rowData, columnNames);
 		this.scrollPane = new JScrollPane(this.tblRecords);
 		setProperties();
 		addComponents();
@@ -75,7 +74,7 @@ public class ReexaminationnPanel extends JPanel implements MouseListener {
 		panel.setLayout(new MigLayout("", "[][grow][]", "[][][][][grow][][][]"));
 		
 		lblReexamination.setText("Ph\u00FAc kh\u1EA3o");
-		
+
 		tfCourse.setEditable(false);
 		
 		tfClass.setEditable(false);
@@ -96,26 +95,26 @@ public class ReexaminationnPanel extends JPanel implements MouseListener {
 		add(lblReexamination, "flowx,cell 0 2");
 		add(panel, "cell 0 3,grow");
 		
-		panel.add(lblCourse, "cell 0 0,alignx trailing");
+		panel.add(lblCourse, "cell 0 0,alignx left");
 		panel.add(tfCourse, "cell 1 0,growx");
-		panel.add(lblClass, "cell 0 1,alignx trailing");
+		panel.add(lblClass, "cell 0 1,alignx left");
 		panel.add(tfClass, "cell 1 1,growx");
 		panel.add(lblSelected, "cell 0 2,alignx trailing");
 		panel.add(cbSelected, "cell 1 2,growx");
-		panel.add(lblExpecting, "cell 0 3,alignx trailing");
+		panel.add(lblExpecting, "cell 0 3,alignx left");
 		panel.add(tfExpecting, "cell 1 3,growx");
-		panel.add(lblReason, "cell 0 4,alignx right,aligny top");
+		panel.add(lblReason, "cell 0 4,alignx left,aligny top");
 		panel.add(taReason, "cell 1 4,grow");
 		panel.add(btnSubmit, "cell 1 5,alignx right");
 	}
 
 	private void getRecords() {
-		columnsName.addElement("M\u00F4n h\u1ECDc");
-		columnsName.addElement("L\u1EDBp h\u1ECDc");
-		columnsName.addElement("\u0110i\u1EC3m gi\u1EEFa k\u1EF3");
-		columnsName.addElement("\u0110i\u1EC3m cu\u1ED1i k\u1EF3");
-		columnsName.addElement("\u0110i\u1EC3m kh\u00E1c");
-		columnsName.addElement("\u0110i\u1EC3m t\u1ED5ng k\u1EBFt");
+		columnNames.addElement("M\u00F4n h\u1ECDc");
+		columnNames.addElement("L\u1EDBp h\u1ECDc");
+		columnNames.addElement("\u0110i\u1EC3m gi\u1EEFa k\u1EF3");
+		columnNames.addElement("\u0110i\u1EC3m cu\u1ED1i k\u1EF3");
+		columnNames.addElement("\u0110i\u1EC3m kh\u00E1c");
+		columnNames.addElement("\u0110i\u1EC3m t\u1ED5ng k\u1EBFt");
 
 		List<Record> records = new RecordDAO().getBySId(s.getSId());
 		for (Record r : records) {
@@ -138,9 +137,9 @@ public class ReexaminationnPanel extends JPanel implements MouseListener {
 		tfCourse.setText(courseName);
 		tfClass.setText(className);
 		cbSelected.removeAllItems();
-		cbSelected.addItem(this.columnsName.get(2) + " " + String.valueOf(tblRecords.getValueAt(row, 2)));
-		cbSelected.addItem(this.columnsName.get(3) + " " + String.valueOf(tblRecords.getValueAt(row, 3)));
-		cbSelected.addItem(this.columnsName.get(4) + " " + String.valueOf(tblRecords.getValueAt(row, 4)));
+		cbSelected.addItem(this.columnNames.get(2) + " - " + String.valueOf(tblRecords.getValueAt(row, 2)));
+		cbSelected.addItem(this.columnNames.get(3) + " - " + String.valueOf(tblRecords.getValueAt(row, 3)));
+		cbSelected.addItem(this.columnNames.get(4) + " - " + String.valueOf(tblRecords.getValueAt(row, 4)));
 		cbSelected.setEditable(false);
 	}
 	

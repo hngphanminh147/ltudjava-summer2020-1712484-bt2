@@ -6,7 +6,9 @@ import pojos.Class;
 
 public class Test {
 //	public static void main(String[] args) {
-//		Class c = new ClassDAO().getByName("Qv Vc");
-//		System.out.println(c);
+//		List<Student> students = new StudentDAO().getByClass("18ELF");
+//		students.forEach(s -> System.out.println(s + "-"));
+//		students = new StudentDAO().getByClassCourse("18ELF", "AWM65");
+//		students.forEach(s -> System.out.println(s + "+"));
 //	}
 }

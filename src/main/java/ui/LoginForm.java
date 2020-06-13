@@ -74,18 +74,16 @@ public class LoginForm extends JFrame implements ActionListener {
 			tfUsername.setText("");
 			tfPassword.setText("");
 
-			if ((username.equals("giaovu")) && (password.equals("giaovu"))) {
-				// TeacherFrame
-				TeacherForm teacherFrame = new TeacherForm();
-				teacherFrame.setVisible(true);
-				dispose();
-				return;
-			}
 			try {
 				Member m = new MemberDAO().getByUsername(username);
-				System.out.println(m);
 				if (m.getPassword().equals(password)) {
-					
+					if (m.getUsername().equals("giaovu")) {
+						// TeacherFrame
+						TeacherForm teacherFrame = new TeacherForm(m);
+						teacherFrame.setVisible(true);
+						dispose();
+						return;
+					}
 					// StudentFrame	
 					StudentForm studentFrame = new StudentForm(username);
 					studentFrame .setVisible(true);

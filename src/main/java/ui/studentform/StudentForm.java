@@ -30,7 +30,7 @@ import java.awt.GridBagConstraints;
 
 public class StudentForm extends JFrame implements ActionListener{
 
-	private final Student s;
+	private Student s;
 	private JPanel contentPane = new JPanel();
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	private JPanel pnProfile;
@@ -49,7 +49,8 @@ public class StudentForm extends JFrame implements ActionListener{
 	private void setProperties() {
 		setTitle("Sinh vi\u00EAn");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 770, 436);
+		setBounds(100, 100, 770, 440);
+		setResizable(false);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
