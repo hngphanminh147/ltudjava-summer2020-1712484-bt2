@@ -14,6 +14,7 @@ public class Constant {
 	
 	public static final String GET_STUDENTS_BY_CLASS_PROC_NAME = "proc_danh_sach_lop";
 	public static final String GET_STUDENTS_BY_CLASS_COURSE_PROC_NAME = "proc_danh_sach_lop_mon";
+	public static final String GET_COURSES_BY_CLASS_PROC_NAME = "proc_thoi_khoa_bieu";
 	
 	public static final String TEST = "Kh\u00F4ng ch\u1ECDn";
 	public static final String NO = "-----";

@@ -47,6 +47,7 @@ public class ManageStudentPanel extends JPanel implements MouseListener {
 		getTable();
 		setProperties();
 		addComponents();
+		setActionListener();
 	}
 
 	private void setProperties() {
@@ -64,12 +65,13 @@ public class ManageStudentPanel extends JPanel implements MouseListener {
 		panel.add(cbCourses, "cell 1 1,growx");
 		panel.add(btnSearch, "cell 2 1,alignx right");
 
-		btnSearch.addMouseListener(this);
-
 		add(lblStudentList, "cell 0 0,alignx left,aligny top");
 		add(panel, "cell 0 1,grow");
-
 		add(scrollPane, "cell 0 2,grow");
+	}
+	
+	private void setActionListener() {
+		btnSearch.addMouseListener(this);
 	}
 
 	private void getClasses() {

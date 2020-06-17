@@ -47,7 +47,7 @@ public class StudentDAO implements ObjectDAOImpl<Student> {
 
 	public List<Student> getByClass(String clId) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			return session.createSQLQuery("call " + Constant.GET_STUDENTS_BY_CLASS_PROC_NAME + "(:MA_LOP)")
+			return session.createSQLQuery("call " + Constant.GET_COURSES_BY_CLASS_PROC_NAME + "(:MA_LOP)")
 					.addEntity(Student.class).setParameter("MA_LOP", clId).list();
 		} catch (Exception exception) {
 			exception.printStackTrace();
