@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import ui.teacherform.panel.ChangePasswordPanel;
+import ui.teacherform.panel.GradePanel;
 import ui.teacherform.panel.ManageStudentPanel;
 import ui.teacherform.panel.SchedulePanel;
 import net.miginfocom.swing.MigLayout;
@@ -23,12 +24,14 @@ public class TeacherForm extends JFrame {
 	private JPanel changePasswordPanel;
 	private JPanel manageStudentPanel;
 	private JPanel schedulePanel;
+	private JPanel recordPanel;
 
 	public TeacherForm(Member t) {
 		this.t = t;
 		this.changePasswordPanel = new ChangePasswordPanel(t);
 		this.manageStudentPanel = new ManageStudentPanel();
 		this.schedulePanel = new SchedulePanel();
+		this.recordPanel = new GradePanel();
 		setProperties();
 		addComponents();
 		setActionListener();
@@ -51,6 +54,7 @@ public class TeacherForm extends JFrame {
 		tabbedPane.addTab("Qu\u1EA3n l\u00FD sinh vi\u00EAn", null, manageStudentPanel, null);
 //		panel_1.setLayout(new MigLayout("", "[]", "[]"));
 		tabbedPane.addTab("Qu\u1EA3n l\u00FD m\u00F4n h\u1ECDc", null, schedulePanel, null);
+		tabbedPane.addTab("Qu\u1EA3n l\u00FD \u0111i\u1EC3m", null, recordPanel, null);
 	}
 	
 	private void setActionListener() {

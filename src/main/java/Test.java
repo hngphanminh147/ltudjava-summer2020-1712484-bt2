@@ -6,13 +6,7 @@ import pojos.Class;
 
 public class Test {
 //	public static void main(String[] args) {
-////		List<Course> courses = new CourseDAO().getByClId("16CWD");
-////		courses.forEach(c -> System.out.println(c));
-//		
-//		List<Schedule> schedules = new ScheduleDAO().getByClId("16CWD");
-//		schedules.forEach(s -> {
-//			String name = new CourseDAO().getByCId(s.getCID()).getName();
-//			System.out.println(s + " " + name);
-//		});
+//		List<Record> records = new RecordDAO().getByClassCourse("16CKJ", "FGR75");
+//		records.forEach(r -> System.out.println(r));
 //	}
 }

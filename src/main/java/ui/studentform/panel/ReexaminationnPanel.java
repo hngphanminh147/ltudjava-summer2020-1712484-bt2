@@ -67,6 +67,7 @@ public class ReexaminationnPanel extends JPanel implements MouseListener {
 		this.scrollPane = new JScrollPane(this.tblRecords);
 		setProperties();
 		addComponents();
+		addActionListener();
 	}
 
 	private void setProperties() {
@@ -81,12 +82,7 @@ public class ReexaminationnPanel extends JPanel implements MouseListener {
 		
 		taReason.setWrapStyleWord(true);
 		taReason.setLineWrap(true);
-		
-		tblRecords.addMouseListener(this);
-		
-		cbSelected.addMouseListener(this);
-		
-		btnSubmit.addMouseListener(this);
+
 	}
 
 	private void addComponents() {
@@ -106,6 +102,12 @@ public class ReexaminationnPanel extends JPanel implements MouseListener {
 		panel.add(lblReason, "cell 0 4,alignx left,aligny top");
 		panel.add(taReason, "cell 1 4,grow");
 		panel.add(btnSubmit, "cell 1 5,alignx right");
+	}
+	
+	private void addActionListener() {		
+		tblRecords.addMouseListener(this);
+		cbSelected.addMouseListener(this);
+		btnSubmit.addMouseListener(this);
 	}
 
 	private void getRecords() {
@@ -146,14 +148,14 @@ public class ReexaminationnPanel extends JPanel implements MouseListener {
 	private void createReexamination() {
 		try {
 			String clId = new ClassDAO().getByName(tfClass.getText()).getClId();
-			System.out.println(tblRecords.getComponentAt(tblRecords.getSelectedRow(), tblRecords.getSelectedColumn()).toString());
+//			System.out.println(tblRecords.getComponentAt(tblRecords.getSelectedRow(), tblRecords.getSelectedColumn()).toString());
 			String cId = new CourseDAO().getByName(tfCourse.getText()).getCId();
 			String sId = this.s.getSId();
 			int type = cbSelected.getSelectedIndex();
 			int score = Integer.parseInt(tfExpecting.getText());
 			String reason = taReason.getText();
 			Reexamination r = new Reexamination(clId, cId, sId, type, score, reason, 0);
-			System.out.println(r);
+//			System.out.println(r);
 			new ReexaminationDAO().save(r);
 			JOptionPane.showMessageDialog(this, "T\u1EA1o ph\u00FAc kh\u1EA3o th\u00E0nh c\u00F4ng", Constant.ALERT, JOptionPane.INFORMATION_MESSAGE);
 		} catch (NumberFormatException exception) {

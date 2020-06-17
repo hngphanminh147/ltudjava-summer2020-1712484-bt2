@@ -44,9 +44,7 @@ public class MemberDAO implements ObjectDAOImpl<Member> {
 			
 			Member mem = new MemberDAO().getByUsername(username);
 			mem.setPassword(newPassword);
-			
 			session.saveOrUpdate(mem);
-			
 			transaction.commit();
 		} catch (Exception exception) {
 
