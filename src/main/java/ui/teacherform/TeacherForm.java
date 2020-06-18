@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import ui.teacherform.panel.ChangePasswordPanel;
 import ui.teacherform.panel.GradePanel;
+import ui.teacherform.panel.ImportPanel;
 import ui.teacherform.panel.ManageStudentPanel;
 import ui.teacherform.panel.SchedulePanel;
 import net.miginfocom.swing.MigLayout;
@@ -25,6 +26,7 @@ public class TeacherForm extends JFrame {
 	private JPanel manageStudentPanel;
 	private JPanel schedulePanel;
 	private JPanel recordPanel;
+	private JPanel importPanel;
 
 	public TeacherForm(Member t) {
 		this.t = t;
@@ -32,19 +34,21 @@ public class TeacherForm extends JFrame {
 		this.manageStudentPanel = new ManageStudentPanel();
 		this.schedulePanel = new SchedulePanel();
 		this.recordPanel = new GradePanel();
+		this.importPanel = new ImportPanel();
+		
 		setProperties();
 		addComponents();
 		setActionListener();
 	}
 
 	private void setProperties() {
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new MigLayout("", "[grow]", "[grow]"));
+		
 		setTitle("Gi\u00E1o v\u1EE5");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 770, 440);
 		setResizable(false);
-
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new MigLayout("", "[grow]", "[grow]"));
 		setContentPane(contentPane);
 	}
 	
@@ -52,9 +56,9 @@ public class TeacherForm extends JFrame {
 		contentPane.add(tabbedPane, "cell 0 0,grow");
 		tabbedPane.addTab("\u0110\u1ED5i m\u1EADt kh\u1EA9u", null, changePasswordPanel, null);
 		tabbedPane.addTab("Qu\u1EA3n l\u00FD sinh vi\u00EAn", null, manageStudentPanel, null);
-//		panel_1.setLayout(new MigLayout("", "[]", "[]"));
 		tabbedPane.addTab("Qu\u1EA3n l\u00FD m\u00F4n h\u1ECDc", null, schedulePanel, null);
 		tabbedPane.addTab("Qu\u1EA3n l\u00FD \u0111i\u1EC3m", null, recordPanel, null);
+		tabbedPane.addTab("Nh\u1EADp th\u00F4ng tin", null, importPanel, null);
 	}
 	
 	private void setActionListener() {
