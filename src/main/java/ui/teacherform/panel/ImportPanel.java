@@ -3,6 +3,7 @@ package ui.teacherform.panel;
 import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import pojos.Class;
+import pojos.Schedule;
 import pojos.Student;
 
 import javax.swing.JLabel;
@@ -13,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 import constant.Constant;
 import daos.ClassDAO;
+import daos.ScheduleDAO;
 import daos.StudentDAO;
 
 import javax.swing.JButton;
@@ -86,7 +88,7 @@ public class ImportPanel extends JPanel implements MouseListener {
 		pnlImport.add(lblImportType, "cell 0 1,alignx trailing");
 		pnlImport.add(cbType, "cell 1 1,growx");
 		pnlImport.add(btnImport, "cell 2 1,alignx right");
-		
+
 		pnlSingle.add(lblSId, "cell 0 0,alignx trailing");
 		pnlSingle.add(tfSId, "cell 1 0,growx,aligny top");
 		pnlSingle.add(lblClId, "cell 3 0,alignx trailing");
@@ -123,6 +125,8 @@ public class ImportPanel extends JPanel implements MouseListener {
 	}
 
 	private void importClass() {
+		DefaultTableModel tblModel = (DefaultTableModel) tblImportData.getModel();
+		tblModel.setRowCount(0);
 		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 			String clId = file.getName().substring(4, 9);
 			reader.readLine();
@@ -130,9 +134,12 @@ public class ImportPanel extends JPanel implements MouseListener {
 			while ((line = reader.readLine()) != null) {
 				String[] data = line.split(",");
 				Student s = new Student(data[0], clId, data[1], (data[2].equals("1") ? true : false), data[3]);
-				System.out.println(s);
-//				new StudentDAO().save(s);
+				tblModel.addRow(data);
+				new StudentDAO().save(s);
 			}
+			tblModel.fireTableDataChanged();
+			tblImportData.setModel(tblModel);
+			tblImportData.repaint();
 		} catch (Exception excecption) {
 			excecption.printStackTrace();
 		}
@@ -148,21 +155,26 @@ public class ImportPanel extends JPanel implements MouseListener {
 			};
 		}
 		String[] columnNames = { "M\u00E3 s\u1ED1 sinh vi\u00EAn", "H\u1ECD v\u00E0 t\u00EAn", "L\u1EDBp",
-				"Gi\u1EDBi t\u00EDnh" };
+				"Gi\u1EDBi t\u00EDnh", "CMND" };
 		tblClassModel.setColumnIdentifiers(columnNames);
 	}
 
 	private void importSchedule() {
+		DefaultTableModel tblModel = (DefaultTableModel) tblImportData.getModel();
+		tblModel.setRowCount(0);
 		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 			String clId = file.getName().substring(4, 9);
 			reader.readLine();
 			String line;
 			while ((line = reader.readLine()) != null) {
 				String[] data = line.split(",");
-				Student s = new Student(data[0], clId, data[1], (data[2].equals("1") ? true : false), data[3]);
-				System.out.println(s);
-//				new StudentDAO().save(s);
+				Schedule s = new Schedule(clId, data[0], data[2]);
+				tblModel.addRow(data);
+				new ScheduleDAO().save(s);
 			}
+			tblModel.fireTableDataChanged();
+			tblImportData.setModel(tblModel);
+			tblImportData.repaint();
 		} catch (Exception excecption) {
 			excecption.printStackTrace();
 		}
@@ -177,25 +189,26 @@ public class ImportPanel extends JPanel implements MouseListener {
 				}
 			};
 		}
-		String[] columnNames = {"M\u00E3 m\u00F4n", "T\u00EAn m\u00F4n", "Ph\u00F2ng h\u1ECDc"};
+		String[] columnNames = { "M\u00E3 m\u00F4n", "T\u00EAn m\u00F4n", "Ph\u00F2ng h\u1ECDc" };
 		tblClassModel.setColumnIdentifiers(columnNames);
 	}
-	
+
 	private void getClasses() {
 		List<Class> classes = new ClassDAO().getAll();
 		classes.forEach(c -> cbClasses.addItem(c.getClId() + " - " + c.getName()));
 	}
-	
+
 	private void addSingle() {
 		String sId = tfSId.getText();
 		String clId = String.valueOf(cbClasses.getSelectedItem()).substring(0, 5);
 		String name = tfName.getText();
-		boolean gender = (rbtnIsFemale.isSelected())? true : false;
+		boolean gender = (rbtnIsFemale.isSelected()) ? true : false;
 		String identity = tfIdentity.getText();
-		
+
 		Student s = new Student(sId, clId, name, gender, identity);
 		new StudentDAO().save(s);
-		JOptionPane.showMessageDialog(this, "Th\u00EAm sinh vi\u00EAn th\u00E0nh c\u00F4ng", Constant.ALERT, JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, "Th\u00EAm sinh vi\u00EAn th\u00E0nh c\u00F4ng", Constant.ALERT,
+				JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	@Override
@@ -230,11 +243,11 @@ public class ImportPanel extends JPanel implements MouseListener {
 			addSingle();
 			return;
 		}
-		if (event.getSource() == rbtnIsFemale){
+		if (event.getSource() == rbtnIsFemale) {
 			rbtnIsMale.setSelected(false);
 			return;
 		}
-		if (event.getSource() == rbtnIsMale){
+		if (event.getSource() == rbtnIsMale) {
 			rbtnIsFemale.setSelected(false);
 			return;
 		}
