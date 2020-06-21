@@ -3,6 +3,7 @@ package ui.teacherform.panel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -48,11 +49,20 @@ public class GradePanel extends JPanel implements MouseListener {
 	private JTextField tfMid = new JTextField();
 	private JTextField tfFinal = new JTextField();
 	private JTextField tfOther = new JTextField();
+	private final JPanel panel = new JPanel();
+	private final JLabel lblPass = new JLabel("S\u1ED1 l\u01B0\u1EE3ng \u0111\u1EADu");
+	private final JLabel lblFail = new JLabel("S\u1ED1 l\u01B0\u1EE3ng r\u1EDBt");
+	private final JTextField tfPassPercent = new JTextField();
+	private final JTextField tfFailPercent = new JTextField();
 
 	/**
 	 * Create the panel.
 	 */
 	public GradePanel() {
+		tfFailPercent.setEditable(false);
+		tfFailPercent.setColumns(10);
+		tfPassPercent.setEditable(false);
+		tfPassPercent.setColumns(10);
 		getClasses();
 		getCourses();
 		getTable();
@@ -62,9 +72,13 @@ public class GradePanel extends JPanel implements MouseListener {
 	}
 
 	private void setProperties() {
-		setLayout(new MigLayout("", "[grow]", "[][][200][][]"));
-		scrollPane.setViewportView(tblRecords);
+		setLayout(new MigLayout("", "[grow]", "[][][200][grow][][]"));
+		panel.setLayout(new MigLayout("", "[][grow][200]", "[][]"));
+		pnlUpdate.setLayout(new MigLayout("", "[][grow][][][grow]", "[][][][]"));
 		pnlRecord.setLayout(new MigLayout("", "[][grow][200]", "[][]"));
+		scrollPane.setViewportView(tblRecords);
+		tfSid.setEnabled(false);
+		tfSid.setEditable(false);
 	}
 
 	private void addComponents() {
@@ -74,10 +88,7 @@ public class GradePanel extends JPanel implements MouseListener {
 		pnlRecord.add(cbCourses, "cell 1 1,growx");
 		pnlRecord.add(btnSearch, "cell 2 1,alignx right");
 
-		pnlUpdate.setLayout(new MigLayout("", "[][grow][][][grow]", "[][][][]"));
 		pnlUpdate.add(lblSid, "cell 0 0,alignx trailing");
-		tfSid.setEnabled(false);
-		tfSid.setEditable(false);
 		pnlUpdate.add(tfSid, "cell 1 0,growx");
 		pnlUpdate.add(lblMid, "cell 3 0,alignx trailing");
 		pnlUpdate.add(tfMid, "cell 4 0,growx");
@@ -87,11 +98,17 @@ public class GradePanel extends JPanel implements MouseListener {
 		pnlUpdate.add(tfFinal, "cell 4 1,growx");
 		pnlUpdate.add(btnComfirm, "cell 4 2,alignx right");
 
+		panel.add(lblPass, "cell 0 0,alignx trailing");
+		panel.add(tfPassPercent, "cell 1 0,growx");
+		panel.add(lblFail, "cell 0 1");
+		panel.add(tfFailPercent, "cell 1 1,growx");
+		
 		add(lblRecord, "cell 0 0");
 		add(pnlRecord, "cell 0 1,grow");
 		add(scrollPane, "cell 0 2,grow");
-		add(lblUpdateGrade, "cell 0 3");
-		add(pnlUpdate, "cell 0 4,grow");
+		add(panel, "cell 0 3,grow");
+		add(lblUpdateGrade, "cell 0 4");
+		add(pnlUpdate, "cell 0 5,grow");
 	}
 
 	private void addActionListeners() {
@@ -112,7 +129,7 @@ public class GradePanel extends JPanel implements MouseListener {
 
 	private void getTable() {
 		String[] tblColumnNames = { "MSSV", "T\u00EAn sinh vi\u00EAn", "\u0111i\u1EC3m gi\u1EEFa k\u1EF3",
-				"\u0111i\u1EC3m cu\u1ED1i k\u1EF3", "\u0111i\u1EC3m kh\u00E1c", "\u0111i\u1EC3m t\u1ED5ng k\u1EBFt" };
+				"\u0111i\u1EC3m cu\u1ED1i k\u1EF3", "\u0111i\u1EC3m kh\u00E1c", "\u0111i\u1EC3m t\u1ED5ng k\u1EBFt" , "\u0110\u1EADu"};
 		if (tblRecords == null) {
 			tblRecords = new JTable() {
 				public boolean isCellEditable(int nRow, int nCol) {
@@ -133,17 +150,29 @@ public class GradePanel extends JPanel implements MouseListener {
 		String selectedCourses = String.valueOf(cbCourses.getSelectedItem()).substring(0, 5);
 		List<Record> records = new RecordDAO().getByClassCourse(selectedClass, selectedCourses);
 		records.forEach(r -> {
-			String[] row = new String[6];
+			String[] row = new String[7];
 			row[0] = r.getSID();
 			row[1] = new StudentDAO().getBySId(r.getSID()).getName();
 			row[2] = String.valueOf(r.getMidTerm());
 			row[3] = String.valueOf(r.getFinalTerm());
 			row[4] = String.valueOf(r.getOther());
 			row[5] = String.valueOf(r.getGrade());
+			row[6] = (r.getGrade() > 5)? "\u0110\u1EADu" : "R\u1EDBt";
 			tblRecordModel.addRow(row);
 		});
 		tblRecordModel.fireTableDataChanged();
 		tblRecords.repaint();
+		
+		if (tblRecords.getRowCount() == 0) {
+			return;
+		}
+		int pass = 0;
+		int num = tblRecords.getRowCount();
+		for (int i = 0; i < num; i++) {
+			pass += (tblRecords.getValueAt(i, 6).equals("\u0110\u1EADu")) ? 1 : 0;
+		}
+		tfPassPercent.setText(String.valueOf(pass) + " (" + String.valueOf(new BigDecimal(100.0*pass/num).setScale(2, RoundingMode.HALF_UP)) + "%)");
+		tfFailPercent.setText(String.valueOf(num - pass) + " (" + String.valueOf(new BigDecimal(100.0*(num - pass)/num).setScale(2, RoundingMode.HALF_UP)) + "%)");
 	}
 	
 	private void displayRow(int row) {

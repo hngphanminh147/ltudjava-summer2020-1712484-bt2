@@ -6,7 +6,6 @@ import pojos.Class;
 
 public class Test {
 //	public static void main(String[] args) {
-//		List<Student> students = new StudentDAO().getAll();
-//		students.forEach(s -> System.out.println(s));
+//		new ClassCourseDetailDAO().delete("18HCB", "CTT01", "1842001");
 //	}
 }

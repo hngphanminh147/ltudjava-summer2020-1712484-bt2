@@ -2,6 +2,8 @@ package ui.studentform;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -18,6 +20,7 @@ import daos.StudentDAO;
 import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 import pojos.Student;
+import ui.LoginForm;
 import ui.studentform.panel.ProfilePanel;
 import ui.studentform.panel.ReexaminationnPanel;
 
@@ -27,19 +30,25 @@ import java.awt.GridLayout;
 import javax.swing.JTabbedPane;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import javax.swing.JButton;
 
-public class StudentForm extends JFrame implements ActionListener{
+public class StudentForm extends JFrame implements MouseListener{
 
 	private Student s;
 	private JPanel contentPane = new JPanel();
+	private JPanel contentPane_1;
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	private JPanel pnProfile;
 	private JPanel pnReexamination;
+	private JLabel lblStudent;
+	private JButton btnLogOut = new JButton("\u0110\u0103ng xu\u1EA5t");
 	
 	public StudentForm(String sId) {
+		System.out.println("1 args cons");
 		this.s = (new StudentDAO()).getBySId(sId);
 		this.pnProfile = new ProfilePanel(s);
 		this.pnReexamination = new ReexaminationnPanel(s);
+		this.lblStudent = new JLabel("Ch\u00E0o " + s.getName());
 		setProperties();
 		setComponentsProperties();
 		addActionEvent();
@@ -52,30 +61,64 @@ public class StudentForm extends JFrame implements ActionListener{
 		setBounds(100, 100, 770, 440);
 		setResizable(false);
 
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new MigLayout("", "[742px]", "[400]"));
+		contentPane_1 = new JPanel();
+		contentPane_1.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
 		tabbedPane.setSize(760, 430);
 		
-		setContentPane(contentPane);
+		setContentPane(contentPane_1);
 	}
 	
 	private void addComponentsToContentPane() {
-		contentPane.add(tabbedPane, "cell 0 0,grow");
+		contentPane_1.setLayout(new MigLayout("", "[98px][4px][642px]", "[25px][351px]"));
+		contentPane_1.add(lblStudent, "cell 0 0,alignx left,aligny center");
+		contentPane_1.add(tabbedPane, "cell 0 1 3 1,grow");
+		contentPane_1.add(btnLogOut, "cell 2 0,alignx right,aligny top");
 	}
 	
 	private void addActionEvent() {
-		
+		btnLogOut.addMouseListener(this);
 	}
 	
 	private void setComponentsProperties() {
 		tabbedPane.addTab(Constant.PROFILE, null, pnProfile, null);
 		tabbedPane.addTab(Constant.REEXAMNIMATION, null, pnReexamination, null);
-	}
+	}	
 	
+	private void logOut() {
+		LoginForm loginForm = new LoginForm();
+		loginForm.setVisible(true);
+		dispose();
+		return;
+	}
+
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent event) {
+		if (event.getSource() == btnLogOut) {
+			logOut();
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

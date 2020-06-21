@@ -36,17 +36,17 @@ public class ChangePasswordPanel extends JPanel implements MouseListener {
 	}
 
 	private void setProperties() {
-		setLayout(new MigLayout("", "[][grow][200]", "[][][][][]"));
+		setLayout(new MigLayout("", "[][grow][200]", "[][][][][][][]"));
 	}
 
 	private void addComponents() {
 		add(lblCurrentPassword, "cell 0 1,alignx left");
 		add(pfCurrentPassword, "cell 1 1,growx");
+		add(btnPasswordSubmit, "cell 2 1,alignx right");
 		add(lblNewPassword, "cell 0 2,alignx left");
 		add(pfNewPassword, "cell 1 2,growx");
 		add(lblReEnterNewPass, "cell 0 3,alignx left");
 		add(pfReEnterNewPass, "cell 1 3,growx");
-		add(btnPasswordSubmit, "cell 1 4,alignx right");
 	}
 
 	private void setActionListener() {

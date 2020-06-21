@@ -3,6 +3,9 @@ package ui.teacherform.panel;
 import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import pojos.Class;
+import pojos.ClassCourseDetail;
+import pojos.Member;
+import pojos.Record;
 import pojos.Schedule;
 import pojos.Student;
 
@@ -13,7 +16,10 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import constant.Constant;
+import daos.ClassCourseDetailDAO;
 import daos.ClassDAO;
+import daos.MemberDAO;
+import daos.RecordDAO;
 import daos.ScheduleDAO;
 import daos.StudentDAO;
 
@@ -78,6 +84,7 @@ public class ImportPanel extends JPanel implements MouseListener {
 		scrollPane.setViewportView(tblImportData);
 		cbType.addItem("Nh\u1EADp danh s\u00E1ch l\u1EDBp");
 		cbType.addItem("Nh\u1EADp th\u1EDDi kh\u00F3a bi\u1EC3u");
+		cbType.addItem("Nh\u1EADp b\u1EA3ng \u0111i\u1EC3m");
 		tblImportData.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
 
@@ -133,9 +140,12 @@ public class ImportPanel extends JPanel implements MouseListener {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				String[] data = line.split(",");
-				Student s = new Student(data[0], clId, data[1], (data[2].equals("1") ? true : false), data[3]);
+				Student s = new Student(data[0], clId, data[2], (data[3].equals("1") ? true : false), data[4]);
+				data[3] = (data[3].equals("1") ? "N\u1EEF" : "Nam");
+				System.out.println(s);
 				tblModel.addRow(data);
 				new StudentDAO().save(s);
+				new MemberDAO().save(new Member(s.getSId(), s.getSId()));
 			}
 			tblModel.fireTableDataChanged();
 			tblImportData.setModel(tblModel);
@@ -154,7 +164,7 @@ public class ImportPanel extends JPanel implements MouseListener {
 				}
 			};
 		}
-		String[] columnNames = { "M\u00E3 s\u1ED1 sinh vi\u00EAn", "H\u1ECD v\u00E0 t\u00EAn", "L\u1EDBp",
+		String[] columnNames = { "M\u00E3 s\u1ED1 sinh vi\u00EAn", "L\u1EDBp", "H\u1ECD v\u00E0 t\u00EAn",
 				"Gi\u1EDBi t\u00EDnh", "CMND" };
 		tblClassModel.setColumnIdentifiers(columnNames);
 	}
@@ -166,11 +176,14 @@ public class ImportPanel extends JPanel implements MouseListener {
 			String clId = file.getName().substring(4, 9);
 			reader.readLine();
 			String line;
+			List<Student> students = new StudentDAO().getByClass(clId);
 			while ((line = reader.readLine()) != null) {
 				String[] data = line.split(",");
-				Schedule s = new Schedule(clId, data[0], data[2]);
+				Schedule schedule = new Schedule(clId, data[0], data[2]);
 				tblModel.addRow(data);
-				new ScheduleDAO().save(s);
+				new ScheduleDAO().save(schedule);
+				students.forEach(
+						s -> new ClassCourseDetailDAO().save(new ClassCourseDetail(clId, data[0], s.getSId())));
 			}
 			tblModel.fireTableDataChanged();
 			tblImportData.setModel(tblModel);
@@ -193,6 +206,42 @@ public class ImportPanel extends JPanel implements MouseListener {
 		tblClassModel.setColumnIdentifiers(columnNames);
 	}
 
+
+	private void importGrade() {
+		DefaultTableModel tblModel = (DefaultTableModel) tblImportData.getModel();
+		tblModel.setRowCount(0);
+		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+			String clId = file.getName().substring(4, 9);			
+			String cId = file.getName().substring(10, 15);
+			reader.readLine();
+			String line;
+			while ((line = reader.readLine()) != null) {
+				String[] data = line.split(",");
+				Record r = new Record(clId, cId, data[0], Integer.valueOf(data[2]), Integer.valueOf(data[3]), Integer.valueOf(data[4]), Double.valueOf(data[5]));
+				new RecordDAO().save(r);
+				tblModel.addRow(data);
+			}
+			tblModel.fireTableDataChanged();
+			tblImportData.setModel(tblModel);
+			tblImportData.repaint();
+		} catch (Exception excecption) {
+			excecption.printStackTrace();
+		}
+	}
+
+	private void setupGradeTableData() {
+		DefaultTableModel tblClassModel = (DefaultTableModel) tblImportData.getModel();
+		if (tblImportData == null) {
+			tblImportData = new JTable() {
+				public boolean isCellEditable(int nRow, int nCol) {
+					return false;
+				}
+			};
+		}
+		String[] columnNames = { "MSSV", "T\u00EAn sinh vi\u00EAn", "\u0111i\u1EC3m gi\u1EEFa k\u1EF3",
+				"\u0111i\u1EC3m cu\u1ED1i k\u1EF3", "\u0111i\u1EC3m kh\u00E1c", "\u0111i\u1EC3m t\u1ED5ng k\u1EBFt" };
+		tblClassModel.setColumnIdentifiers(columnNames);
+	}
 	private void getClasses() {
 		List<Class> classes = new ClassDAO().getAll();
 		classes.forEach(c -> cbClasses.addItem(c.getClId() + " - " + c.getName()));
@@ -207,6 +256,7 @@ public class ImportPanel extends JPanel implements MouseListener {
 
 		Student s = new Student(sId, clId, name, gender, identity);
 		new StudentDAO().save(s);
+		new MemberDAO().save(new Member(s.getSId(), s.getSId()));
 		JOptionPane.showMessageDialog(this, "Th\u00EAm sinh vi\u00EAn th\u00E0nh c\u00F4ng", Constant.ALERT,
 				JOptionPane.INFORMATION_MESSAGE);
 	}
@@ -230,14 +280,22 @@ public class ImportPanel extends JPanel implements MouseListener {
 			return;
 		}
 		if (event.getSource() == btnImport) {
-			if (cbType.getSelectedIndex() == 0) {
+			switch (cbType.getSelectedIndex()) {
+			case 0:
 				setupClassTableData();
 				importClass();
 				return;
+			case 1:
+				setupScheduleTableData();
+				importSchedule();
+				return;
+			case 2:
+				setupGradeTableData();
+				importGrade();
+				return;
+			default:
+				break;
 			}
-			setupScheduleTableData();
-			importSchedule();
-			return;
 		}
 		if (event.getSource() == btnAdd) {
 			addSingle();

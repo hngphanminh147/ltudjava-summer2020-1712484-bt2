@@ -44,7 +44,7 @@ public class SchedulePanel extends JPanel implements MouseListener {
 	}
 	
 	private void setProperties() {
-		setLayout(new MigLayout("", "[grow]", "[][][grow]"));
+		setLayout(new MigLayout("", "[grow]", "[][][200]"));
 	}
 	
 	private void addComponents() {

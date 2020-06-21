@@ -1,6 +1,5 @@
 package ui;
 
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -60,7 +59,7 @@ public class LoginForm extends JFrame implements ActionListener {
 		contentPane.add(tfPassword, "cell 2 2,growx,aligny top");
 		contentPane.add(btnSubmit, "cell 2 4,growx,aligny top");
 	}
-	
+
 	private void addActionEvent() {
 		btnSubmit.addActionListener(this);
 	}
@@ -70,7 +69,7 @@ public class LoginForm extends JFrame implements ActionListener {
 		if (event.getSource() == btnSubmit) {
 			String username = tfUsername.getText().replaceAll("\\s+$", "");
 			String password = String.valueOf(tfPassword.getPassword()).replaceAll("\\s+$", "");
-			
+
 			tfUsername.setText("");
 			tfPassword.setText("");
 
@@ -84,9 +83,11 @@ public class LoginForm extends JFrame implements ActionListener {
 						dispose();
 						return;
 					}
-					// StudentFrame	
+					// StudentFrame
+					System.out.println("toi day");
 					StudentForm studentFrame = new StudentForm(username);
-					studentFrame .setVisible(true);
+					System.out.println("toi day khong1");
+					studentFrame.setVisible(true);
 					dispose();
 					return;
 				}
